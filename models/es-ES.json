@@ -1,0 +1,635 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "busca perro",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "salir"
+                    ]
+                },
+                {
+                    "name": "BuscaMascotaIntent",
+                    "slots": [
+                        {
+                            "name": "mascota",
+                            "type": "tipoAnimal"
+                        },
+                        {
+                            "name": "tamano",
+                            "type": "tipoTamano",
+                            "samples": [
+                                "{quiero} {articulo} {mascota} {tamano}",
+                                "{quiero} {tamano}",
+                                "{articulo} {tamano}",
+                                "tamaño {tamano}",
+                                "{quiero} {articulo} {mascota} {tamano} de {energia}",
+                                "{quiero} {articulo} {mascota} {tamano} y {temperamento}",
+                                "{quiero} {articulo} {tamano} {temperamento} de {energia}",
+                                "{mascota} {tamano} y {temperamento}",
+                                "{tamano} y {energia}",
+                                "{tamano}"
+                            ]
+                        },
+                        {
+                            "name": "temperamento",
+                            "type": "tipoTemperamento",
+                            "samples": [
+                                "{quiero} {articulo} {mascota} {temperamento}",
+                                "{quiero} {temperamento}",
+                                "{articulo} {temperamento}",
+                                "temperamento {temperamento}",
+                                "{quiero} {articulo} {mascota} {temperamento} de {energia}",
+                                "{quiero} {articulo} {mascota} {temperamento} y {tamano}",
+                                "{quiero} {articulo} {temperamento} {tamano} de {energia}",
+                                "{mascota} {temperamento} y {tamano}",
+                                "{temperamento} y {energia}",
+                                "{temperamento}",
+                                "más {temperamento}"
+                            ]
+                        },
+                        {
+                            "name": "quiero",
+                            "type": "tipoQuiero"
+                        },
+                        {
+                            "name": "energia",
+                            "type": "tipoEnergia",
+                            "samples": [
+                                "{quiero} {articulo} {mascota} {energia}",
+                                "{quiero} {energia}",
+                                "{articulo} {energia}",
+                                "energía {energia}",
+                                "{quiero} {articulo} {mascota} {energia} y {temperamento}",
+                                "{quiero} {articulo} {mascota} {energia} y {tamano}",
+                                "{quiero} {articulo} {energia} {tamano} y {temperamento}",
+                                "{mascota} {energia} y {tamano}",
+                                "{energia} y {temperamento} ",
+                                "{energia}"
+                            ]
+                        },
+                        {
+                            "name": "articulo",
+                            "type": "tipoArticulo"
+                        }
+                    ],
+                    "samples": [
+                        "{quiero} {articulo} {tamano}",
+                        "{quiero} {articulo} {temperamento}",
+                        "{quiero} {articulo} {energia}",
+                        "{articulo} {tamano}",
+                        "{articulo} {temperamento}",
+                        "{articulo} {energia}",
+                        "{quiero} {articulo} {mascota}",
+                        "{quiero} {articulo} {mascota} {tamano}",
+                        "{quiero} {articulo} {mascota} {temperamento}",
+                        "{quiero} {articulo} {mascota} {energia}",
+                        "{articulo} {mascota}",
+                        "{articulo} {mascota} {tamano}",
+                        "{articulo} {mascota} {temperamento}",
+                        "{articulo} {mascota} {energia}",
+                        "{mascota} {tamano}",
+                        "{mascota} {temperamento}",
+                        "{mascota} {energia}",
+                        "{quiero} {articulo} {mascota} {tamano} y {temperamento}",
+                        "{quiero} {articulo} {mascota} {tamano} y {energia}",
+                        "{quiero} {articulo} {mascota} {energia} y {temperamento}",
+                        "{quiero} {articulo} {mascota} {energia} y {tamano}",
+                        "{quiero} {articulo} {mascota} {temperamento} y {energia}",
+                        "{quiero} {articulo} {mascota} {temperamento} y {tamano}",
+                        "{quiero} {articulo} {mascota} {tamano} {energia} y {temperamento}",
+                        "{quiero} {articulo} {mascota} {tamano} {temperamento} y {energia}",
+                        "{quiero} {articulo} {mascota} {temperamento} {energia} y {tamano}",
+                        "{quiero} {articulo} {mascota} {temperamento} {tamano} y {energia}",
+                        "{quiero} {articulo} {mascota} {energia} {tamano} y {temperamento}",
+                        "{quiero} {articulo} {mascota} {energia} {temperamento} y {tamano}",
+                        "{articulo} {mascota} {tamano} y {temperamento}",
+                        "{articulo} {mascota} {tamano} y {energia}",
+                        "{articulo} {mascota} {energia} y {temperamento}",
+                        "{articulo} {mascota} {energia} y {tamano}",
+                        "{articulo} {mascota} {temperamento} y {energia}",
+                        "{articulo} {mascota} {temperamento} y {tamano}",
+                        "{articulo} {mascota} {tamano} {energia} y {temperamento}",
+                        "{articulo} {mascota} {tamano} {temperamento} y {energia}",
+                        "{articulo} {mascota} {temperamento} {energia} y {tamano}",
+                        "{articulo} {mascota} {temperamento} {tamano} y {energia}",
+                        "{articulo} {mascota} {energia} {tamano} y {temperamento}",
+                        "{articulo} {mascota} {energia} {temperamento} y {tamano}",
+                        "por {articulo} {mascota}",
+                        "por {articulo} {mascota} {tamano}",
+                        "por {articulo} {mascota} {temperamento}",
+                        "por {articulo} {mascota} {energia}",
+                        "emparéjame",
+                        "me empareje",
+                        "una recomendación",
+                        "una sugerencia"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "tipoArticulo",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "un"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "una"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "el"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "la"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoEn",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "en el"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "en la"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "alrededor de"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cerca de"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoEnergia",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "low",
+                                "synonyms": [
+                                    "baja",
+                                    "para acurrucarme",
+                                    "para ver netflix",
+                                    "tranquilo",
+                                    "pasota",
+                                    "lento",
+                                    "de baja energía",
+                                    "de poca energía",
+                                    "dormilón",
+                                    "tonto",
+                                    "para acariciar",
+                                    "para dormir",
+                                    "de compania"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "medium",
+                                "synonyms": [
+                                    "media",
+                                    "para mi piso",
+                                    "para mi apartamento",
+                                    "para jugar",
+                                    "divertido",
+                                    "juguetón",
+                                    "peleón",
+                                    "jugón",
+                                    "con pilas",
+                                    "para caminar",
+                                    "de energía media",
+                                    "de energía intermedia"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "high",
+                                "synonyms": [
+                                    "alta",
+                                    "con el que pueda correr",
+                                    "para hacer deporte",
+                                    "para correr",
+                                    "para andar en bicicleta",
+                                    "para ir a la montana",
+                                    "para hacer senderismo",
+                                    "para ir a la playa",
+                                    "que atrape pelotas",
+                                    "energético",
+                                    "activo",
+                                    "nervioso",
+                                    "de alta energía"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoQuiero",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "mi favorito es"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "prefiero"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "busquemos"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "busca"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "busco"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "búscame"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "encuentra"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dame"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "encuéntrame"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "nos gustaría"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "que tal"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "quiero"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lo quiero"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "quisiera"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "me agradaría"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "me gusta"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoUbicacion",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "playa"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "montana"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "parque"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "calle"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sendero"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoTamano",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "large",
+                                "synonyms": [
+                                    "grande",
+                                    "gigante",
+                                    "inmenso",
+                                    "monstruo",
+                                    "monstruoso",
+                                    "masivo",
+                                    "bestia",
+                                    "hasta la cintura",
+                                    "grandote"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "medium",
+                                "synonyms": [
+                                    "mediano",
+                                    "más grande que un gato",
+                                    "para la cama",
+                                    "hasta las rodillas",
+                                    "promedio",
+                                    "tamaño medio",
+                                    "intermedio",
+                                    "tamaño intermedio"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "small",
+                                "synonyms": [
+                                    "pequeño",
+                                    "chico",
+                                    "enano",
+                                    "botón",
+                                    "faldero"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tiny",
+                                "synonyms": [
+                                    "diminuto",
+                                    "de bolsillo",
+                                    "microscópico",
+                                    "diminuto",
+                                    "bebé",
+                                    "pigmeo",
+                                    "de mano",
+                                    "de bolsillo"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoTemperamento",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "watch",
+                                "synonyms": [
+                                    "vigilante",
+                                    "adulto",
+                                    "que ladra",
+                                    "atento"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "guard",
+                                "synonyms": [
+                                    "guardián",
+                                    "que me proteja",
+                                    "policía",
+                                    "protector"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "family",
+                                "synonyms": [
+                                    "familiar",
+                                    "amigable",
+                                    "para niños",
+                                    "bueno",
+                                    "amable",
+                                    "amable con niños",
+                                    "bueno con niños",
+                                    "cariñoso"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tipoAnimal",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "dog",
+                                "synonyms": [
+                                    "perro",
+                                    "canino",
+                                    "can"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "BuscaMascotaIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "mascota",
+                            "type": "tipoAnimal",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "tamano",
+                            "type": "tipoTamano",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-PetMatchIntent.IntentSlot-tamano"
+                            }
+                        },
+                        {
+                            "name": "temperamento",
+                            "type": "tipoTemperamento",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-PetMatchIntent.IntentSlot-temperamento"
+                            }
+                        },
+                        {
+                            "name": "quiero",
+                            "type": "tipoQuiero",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "energia",
+                            "type": "tipoEnergia",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-PetMatchIntent.IntentSlot-energia"
+                            }
+                        },
+                        {
+                            "name": "articulo",
+                            "type": "tipoArticulo",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Intent-PetMatchIntent.IntentSlot-tamano",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "¿Quieres uno {temperamento} y {energia} , pero de que tamaño?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Te interesa {energia} , pero de que tamaño?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Lo quieres {temperamento} , pero de que tamaño?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Piensa en el espacio con que cuentas para tu perro y dime que tan grande lo quieres"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Un perro puede ser diminuto, pequeño, mediano o grande. ¿De que tamaño lo quieres?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Qué tamaño de perro te interesa?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Qué tamaño de perro prefieres?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-PetMatchIntent.IntentSlot-temperamento",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "¿Lo quieres {tamano} y {energia} , pero de que temperamento?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Quieres uno {energia} , pero de que temperamento te gustaría?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Vale, uno {tamano} , pero de que temperamento lo querrías?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Estás buscando on perro guardián o más familiar?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Prefieres un perro que juegue con los niños o más de protección?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Intent-PetMatchIntent.IntentSlot-energia",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "¿Has seleccionado {tamano} y {temperamento} , pero de que energía lo prefieres?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Lo quieres {temperamento} , pero de que energía lo quieres?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Lo quieres {tamano} , pero de que tipo de energía?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Prefieres un perro de alta, media o baja energía?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "¿Qué nivel de energía quieres en tu perro?"
+                    }
+                ]
+            }
+        ]
+    }
+}
