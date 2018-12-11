@@ -8,7 +8,7 @@
           "apis": {
             "custom": {
               "endpoint": {
-                "uri": "ask-custom-petmatch-default"
+                "uri": "ask-custom-dogmatch-spanish-default"
               }
             }
           }

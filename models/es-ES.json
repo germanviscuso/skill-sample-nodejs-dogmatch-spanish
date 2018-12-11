@@ -18,6 +18,34 @@
                     ]
                 },
                 {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "ExplainSizeIntent",
+                    "slots": [
+                        {
+                            "name": "tamano",
+                            "type": "tipoTamano"
+                        }
+                    ],
+                    "samples": [
+                        "qué es un perro {tamano}",
+                        "como es un perro {tamano}",
+                        "describe {tamano}",
+                        "define {tamano}",
+                        "explica tamaño {tamano}",
+                        "qué tamaños tienes",
+                        "cuáles tamaños tienes",
+                        "qué tamaños hay",
+                        "lista los tamaños"
+                    ]
+                },
+                {
                     "name": "BuscaMascotaIntent",
                     "slots": [
                         {
@@ -157,31 +185,6 @@
                         {
                             "name": {
                                 "value": "la"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "tipoEn",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "en el"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "en la"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "alrededor de"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "cerca de"
                             }
                         }
                     ]
@@ -336,36 +339,6 @@
                     ]
                 },
                 {
-                    "name": "tipoUbicacion",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "playa"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "montana"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "parque"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "calle"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "sendero"
-                            }
-                        }
-                    ]
-                },
-                {
                     "name": "tipoTamano",
                     "values": [
                         {
@@ -435,6 +408,7 @@
                             "name": {
                                 "value": "watch",
                                 "synonyms": [
+                                    "vigía",
                                     "vigilante",
                                     "adulto",
                                     "que ladra",
@@ -449,6 +423,7 @@
                                     "guardián",
                                     "que me proteja",
                                     "policía",
+                                    "de policía",
                                     "protector"
                                 ]
                             }
@@ -568,7 +543,7 @@
                     },
                     {
                         "type": "PlainText",
-                        "value": "Un perro puede ser diminuto, pequeño, mediano o grande. ¿De que tamaño lo quieres?"
+                        "value": "Un perro puede ser pequeño, mediano o grande. ¿De que tamaño lo quieres?"
                     },
                     {
                         "type": "PlainText",

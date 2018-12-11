@@ -1,4 +1,4 @@
-const Alexa = require('ask-sdk-core');
+const Alexa = require('ask-sdk');
 const https = require('https');
 
 /* HANDLERS */
@@ -7,21 +7,70 @@ const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
-  handle(handlerInput) {
+  async handle(handlerInput) {
+    const {serviceClientFactory, responseBuilder} = handlerInput;
+    let profileName;
+    try {
+      const upsServiceClient = serviceClientFactory.getUpsServiceClient();
+      profileName = await upsServiceClient.getProfileGivenName();
+    } catch (error) {
+      console.log(error.message);
+      if (error.statusCode == 403) {
+        responseBuilder.withAskForPermissionsConsentCard(GIVEN_NAME_PERMISSION);
+      }
+    }
+    let WELCOME_MESSAGE = "¡Bienvenido!";
+    if (profileName) {
+      WELCOME_MESSAGE = '¡Bienvenido ' + profileName + '!';
+    }
+
     return handlerInput.responseBuilder
-      .speak(`Bienvenido a la skill ${SKILL_NAME}. Te puedo ayudar a encontrar tu mejor clase de perro. ` +
+      .speak(`${WELCOME_MESSAGE}. Te puedo ayudar a encontrar tu perro ideal. ` +
         '¿Qué tipo de perro quieres?')
       .reprompt(HELP_REPROMPT)
       .getResponse();
-  },
+  }
 };
 
-const InProgressPetMatchIntent = {
+const YesIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
 
     return request.type === 'IntentRequest'
-      && request.intent.name === 'BuscaMascotaIntent'
+      && request.intent.name === 'AMAZON.YesIntent';
+  },
+  handle(handlerInput) {
+
+    return handlerInput.responseBuilder
+      //.addElicitSlotDirective('tamano', updatedIntent) -> NOT ON THIS INTENT
+      .speak('Un perro puede ser pequeño, mediano o grande. ¿De que tamaño lo quieres?')
+      .reprompt('¿De que tamaño lo quieres?')
+      .getResponse();
+  }
+};
+
+const ExplainSizeIntentHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'ExplainSizeIntent';
+  },
+  handle(handlerInput) {
+
+    return handlerInput.responseBuilder
+      .speak('El lomo de un perro grande se acerca más a tu cintura. el de un perro mediano a tus rodillas y el de uno pequeño a tus tobillos. ¿De que tamaño lo quieres?')
+      .reprompt('¿De que tamaño lo quieres?')
+      .getResponse();
+  }
+};
+
+const InProgressDogMatchIntentHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'BuscaMascotaIntent' 
       && request.dialogState !== 'COMPLETED';
   },
   handle(handlerInput) {
@@ -30,10 +79,10 @@ const InProgressPetMatchIntent = {
     return handlerInput.responseBuilder
       .addDelegateDirective(currentIntent)
       .getResponse();
-  },
+  }
 };
 
-const CompletedPetMatchIntent = {
+const CompletedDogMatchIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
 
@@ -74,12 +123,14 @@ const CompletedPetMatchIntent = {
     }
 
     return handlerInput.responseBuilder
-      .speak(outputSpeech + '. ' + randomPhrase(BYE_MESSAGES))
+      .speak(outputSpeech + '. ' + '¿Quieres volver a intentarlo?')
+      .reprompt('¿Quieres volver a intentarlo?')
+      //.withShouldEndSession(false)
       .getResponse();
-  },
+  }
 };
 
-const HelpHandler = {
+const HelpIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
 
@@ -88,25 +139,26 @@ const HelpHandler = {
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
-      .speak(`Estás en ${SKILL_NAME}. Un buscador que te permites encontrar tu perro perfecto.` + 'Puedes indicar el tamaño, nivel de energía y temperamento del perro')
+      .speak(`Estás en ${SKILL_NAME}. Un buscador que te permite encontrar tu perro ideal` + '. Puedes indicar el tamaño, nivel de energía y temperamento del perro')
       .reprompt(HELP_REPROMPT)
       .getResponse();
-  },
+  }
 };
 
-const ExitHandler = {
+const ExitIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
 
     return request.type === 'IntentRequest'
       && (request.intent.name === 'AMAZON.CancelIntent'
-        || request.intent.name === 'AMAZON.StopIntent');
+        || request.intent.name === 'AMAZON.StopIntent'
+        || request.intent.name === 'AMAZON.NoIntent');
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
       .speak(randomPhrase(BYE_MESSAGES))
       .getResponse();
-  },
+  }
 };
 
 const SessionEndedRequestHandler = {
@@ -114,10 +166,10 @@ const SessionEndedRequestHandler = {
     return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
   },
   handle(handlerInput) {
-    console.log(`Session ended with reason: ${handlerInput.requestEnvelope.request.reason}`);
+    console.log(`Session ended with: ${JSON.stringify(handlerInput.requestEnvelope.request)}`);
 
     return handlerInput.responseBuilder.getResponse();
-  },
+  }
 };
 
 const ErrorHandler = {
@@ -131,7 +183,7 @@ const ErrorHandler = {
       .speak(ERROR_MESSAGE)
       .reprompt(ERROR_MESSAGE)
       .getResponse();
-  },
+  }
 };
 
 
@@ -140,13 +192,14 @@ const ErrorHandler = {
 const SKILL_NAME = "busca perro";
 const BYE_MESSAGES = ['Hasta la próxima', 'Hasta la vista!', 'Adiós', 'Nos vemos'];
 const SORRY_MESSAGES = ['Lo siento', 'Lo lamento', 'Que pena', 'Perdona', 'Lo siento mucho'];
-const RETRY_MESSAGES = ['Prueba otra vez', 'Inténtalo otra vez', 'Prueba de nuevo', 'Inténtalo de nuevo', 'Vuelve a intentarlo'];
+const RETRY_MESSAGES = ['Prueba otra vez', 'Inténtalo otra vez', 'Prueba de nuevo', 'Inténtalo de nuevo', 'Vuelve a intentarlo', 'Por favor repítemelo'];
 const HELP_REPROMPT = '¿Qué tamaño, temperamento y energía buscas en un perro?';
-const ERROR_MESSAGE = 'Perdona, no te entiendo. Por favor repítemelo.';
+const ERROR_MESSAGE = 'Perdona, no te entiendo. ' + randomPhrase(RETRY_MESSAGES);
+const GIVEN_NAME_PERMISSION = ['alexa::profile:given_name:read'];
 
 const petMatchApi = {
   hostname: 'e4v7rdwl7l.execute-api.us-east-1.amazonaws.com',
-  pets: '/Test',
+  pets: '/Test'
 };
 
 /* HELPER FUNCTIONS */
@@ -158,7 +211,7 @@ function buildPastMatchObject(response, slotValues) {
     energy: slotValues.energia.resolved,
     size: slotValues.tamano.resolved,
     temperament: slotValues.temperamento.resolved,
-  };
+  }
 }
 
 function getSlotValues(filledSlots) {
@@ -228,7 +281,7 @@ function buildHttpGetOptions(host, path, port, params) {
     path: path + buildQueryString(params),
     port,
     method: 'GET',
-  };
+  }
 }
 
 function buildPetMatchOptions(slotValues) {
@@ -271,11 +324,14 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
-    InProgressPetMatchIntent,
-    CompletedPetMatchIntent,
-    HelpHandler,
-    ExitHandler,
+    InProgressDogMatchIntentHandler,
+    CompletedDogMatchIntentHandler,
+    YesIntentHandler,
+    ExplainSizeIntentHandler,
+    HelpIntentHandler,
+    ExitIntentHandler,
     SessionEndedRequestHandler,
   )
   .addErrorHandlers(ErrorHandler)
+  .withApiClient(new Alexa.DefaultApiClient())
   .lambda();

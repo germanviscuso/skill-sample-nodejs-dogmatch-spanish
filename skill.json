@@ -3,13 +3,13 @@
     "publishingInformation": {
       "locales": {
         "es-ES": {
+          "name": "Dog Match",
           "summary": "Encuentra tu perro perfecto.",
           "examplePhrases": [
             "Alexa abre busca perro",
             "Alexa pide a busca perro una recomendación",
             "Alexa dile a busca perro que quiero un perro pequeño y familiar"
           ],
-          "name": "Buscame un Perro",
           "description": "¿Quieres un perro y no estás seguro cual te vendría bien? Búscame un Perro encontrará tu perro perfectoi si respondes a unas pocas preguntas."
         }
       },
