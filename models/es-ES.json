@@ -27,18 +27,8 @@
                 },
                 {
                     "name": "ExplainSizeIntent",
-                    "slots": [
-                        {
-                            "name": "tamano",
-                            "type": "tipoTamano"
-                        }
-                    ],
+                    "slots": [],
                     "samples": [
-                        "qué es un perro {tamano}",
-                        "como es un perro {tamano}",
-                        "describe {tamano}",
-                        "define {tamano}",
-                        "explica tamaño {tamano}",
                         "qué tamaños tienes",
                         "cuáles tamaños tienes",
                         "qué tamaños hay",
@@ -362,7 +352,7 @@
                                 "value": "medium",
                                 "synonyms": [
                                     "mediano",
-                                    "más grande que un gato",
+                                    "mayor que un gato",
                                     "para la cama",
                                     "hasta las rodillas",
                                     "promedio",
