@@ -52,12 +52,12 @@ const YesIntentHandler = {
 const ExplainSizeIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-
+    console.log('CompletedDogMatchIntentHandler');
     return request.type === 'IntentRequest'
       && request.intent.name === 'ExplainSizeIntent';
   },
   handle(handlerInput) {
-
+    const request = handlerInput.requestEnvelope.request;
     return handlerInput.responseBuilder
       .speak('El lomo de un perro grande se acerca más a tu cintura. el de un perro mediano a tus rodillas y el de uno pequeño a tus tobillos. ¿De que tamaño lo quieres?')
       .reprompt('¿De que tamaño lo quieres?')
@@ -68,14 +68,14 @@ const ExplainSizeIntentHandler = {
 const InProgressDogMatchIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-
+    console.log('InProgressDogMatchIntentHandler');
     return request.type === 'IntentRequest'
       && request.intent.name === 'BuscaMascotaIntent' 
       && request.dialogState !== 'COMPLETED';
   },
   handle(handlerInput) {
     const currentIntent = handlerInput.requestEnvelope.request.intent;
-
+    console.log('In progress intent is:  ' + JSON.stringify(currentIntent));
     return handlerInput.responseBuilder
       .addDelegateDirective(currentIntent)
       .getResponse();
@@ -85,15 +85,15 @@ const InProgressDogMatchIntentHandler = {
 const CompletedDogMatchIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-
+    console.log('CompletedDogMatchIntentHandler');
     return request.type === 'IntentRequest'
       && request.intent.name === 'BuscaMascotaIntent';
   },
   async handle(handlerInput) {
     const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
-
+    console.log(`The raw slot: ${JSON.stringify(filledSlots)}`);
     const slotValues = getSlotValues(filledSlots);
-    console.log(`The slot values: ${JSON.stringify(slotValues)}`);
+    console.log(`The processed slot values: ${JSON.stringify(slotValues)}`);
     const petMatchOptions = buildPetMatchOptions(slotValues);
     console.log(petMatchOptions);
 
@@ -186,6 +186,42 @@ const ErrorHandler = {
   }
 };
 
+/* INTERCEPTORS */
+
+const DialogManagementStateInterceptor = {
+  process(handlerInput) {
+    const currentIntent = handlerInput.requestEnvelope.request.intent;
+    console.log('Interceptor got Intent: ' + JSON.stringify(currentIntent));
+    console.log('Dialog state: ' + handlerInput.requestEnvelope.request.dialogState);
+    if (handlerInput.requestEnvelope.request.type === "IntentRequest"
+      && handlerInput.requestEnvelope.request.dialogState !== "COMPLETED") {
+      console.log('Interceptor detected dialog');
+      const attributesManager = handlerInput.attributesManager;
+      const sessionAttributes = attributesManager.getSessionAttributes();
+
+      // If there are no session attributes we've never entered dialog management
+      // for this intent before.
+      if (sessionAttributes[currentIntent.name]) {
+        console.log('Interceptor found stored Intent');
+        let savedSlots = sessionAttributes[currentIntent.name].slots;
+        console.log('Stored slots are: ' + JSON.stringify(savedSlots))
+        for (let key in savedSlots) {
+          // we override with a saved slot value only if the current intent does not 
+          // have it and it's present in the saved slots
+          console.log('Interceptor processing slot: ' + key);
+          if (!currentIntent.slots[key].value && savedSlots[key].value) {
+            console.log('Replacing: ' + JSON.stringify(currentIntent.slots[key]));
+            console.log('...with: ' + JSON.stringify(savedSlots[key]));
+            currentIntent.slots[key] = savedSlots[key];
+          }
+        }    
+      }
+      console.log('Saving for next round: ' + JSON.stringify(currentIntent));
+      sessionAttributes[currentIntent.name] = currentIntent;
+      attributesManager.setSessionAttributes(sessionAttributes);
+    }
+  }
+};
 
 /* CONSTANTS */
 
@@ -226,6 +262,7 @@ function getSlotValues(filledSlots) {
       filledSlots[item].resolutions.resolutionsPerAuthority[0] &&
       filledSlots[item].resolutions.resolutionsPerAuthority[0].status &&
       filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code) {
+      console.log('Could find ER: ' + filledSlots[item].name);
       switch (filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code) {
         case 'ER_SUCCESS_MATCH':
           slotValues[name] = {
@@ -245,6 +282,7 @@ function getSlotValues(filledSlots) {
           break;
       }
     } else {
+      console.log('Could NOT find ER: ' + filledSlots[item].name);
       slotValues[name] = {
         synonym: filledSlots[item].value,
         resolved: filledSlots[item].value,
@@ -333,5 +371,6 @@ exports.handler = skillBuilder
     SessionEndedRequestHandler,
   )
   .addErrorHandlers(ErrorHandler)
+  .addRequestInterceptors(DialogManagementStateInterceptor)
   .withApiClient(new Alexa.DefaultApiClient())
   .lambda();
