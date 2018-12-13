@@ -188,7 +188,13 @@ const ErrorHandler = {
 
 /* INTERCEPTORS */
 
-const DialogManagementStateInterceptor = {
+const LoggingResponseInterceptor = {
+  process(handlerInput, response) {
+    console.log(`Outgoing response: ${JSON.stringify(response)}`);
+  }
+};
+
+const DialogManagementStateRequestInterceptor = {
   process(handlerInput) {
     const currentIntent = handlerInput.requestEnvelope.request.intent;
     console.log('Interceptor got Intent: ' + JSON.stringify(currentIntent));
@@ -239,6 +245,14 @@ const petMatchApi = {
 };
 
 /* HELPER FUNCTIONS */
+
+// Spanish, European (es-ES): Enrique / Conchita
+// Spanish, US (es-US): Miguel / Penelope (not supported yet)
+function switchVoice(text, voice_name) {
+  if (text){
+    return "<voice name='" + voice_name + "'>" + text + "</voice>"
+  }
+}
 
 function buildPastMatchObject(response, slotValues) {
   return {
@@ -371,6 +385,7 @@ exports.handler = skillBuilder
     SessionEndedRequestHandler,
   )
   .addErrorHandlers(ErrorHandler)
-  .addRequestInterceptors(DialogManagementStateInterceptor)
+  .addRequestInterceptors(DialogManagementStateRequestInterceptor)
+  .addResponseInterceptors(LoggingResponseInterceptor)
   .withApiClient(new Alexa.DefaultApiClient())
   .lambda();
